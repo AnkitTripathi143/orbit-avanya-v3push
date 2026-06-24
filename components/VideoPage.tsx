@@ -97,7 +97,7 @@ export default function VideoPage() {
         aria-label={muted ? 'Unmute' : 'Mute'}
       >
         {muted ? <MuteIcon /> : <UnmuteIcon />}
-        {muted ? 'UNMUTE' : 'MUTE'}
+        {muted ? 'WATCH' : 'CLOSE'}
       </button>
 
       {/* Modal — always mounted when open, visibility drives CSS transition */}
