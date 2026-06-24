@@ -224,13 +224,41 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   justify-content: center;
 }
 
-/* All screens: contain keeps full video visible without distortion */
+/* Desktop: fill the screen, crop intelligently */
 .video-page video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center center;
+  object-fit: cover;
+  object-position: center top;
   display: block;
+}
+
+/* Portrait mobile & tablet: 9:16 full-bleed, fills screen edge-to-edge */
+@media (max-width: 768px) and (orientation: portrait) {
+  .video-page {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .video-page video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 0;
+  }
+}
+
+/* Landscape on mobile — fill screen like desktop */
+@media (max-width: 768px) and (orientation: landscape) {
+  .video-page { padding: 0; }
+  .video-page video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
 }
 
 /* ---- MUTE BUTTON ---- */
