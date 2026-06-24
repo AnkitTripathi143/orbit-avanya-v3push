@@ -94,7 +94,7 @@ export default function VideoPage() {
         aria-label={muted ? 'Unmute' : 'Mute'}
       >
         {muted ? <MuteIcon /> : <UnmuteIcon />}
-        {muted ? 'UNMUTE' : 'MUTE'}
+        {muted ? 'WATCH' : 'CLOSE'}
       </button>
 
       {/* Mobile/Tablet modal — opens when UNMUTE is clicked */}
