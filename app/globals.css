@@ -51,7 +51,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .nav-logo-inner {
   display: block;
-  width: 50px; height: 42px;
+  width: 54px; height: 42px;
   overflow: hidden;
   transition: width .45s cubic-bezier(.25,.8,.25,1);
   border-radius: 8px;
@@ -211,12 +211,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @keyframes ripple-anim { to { transform: scale(2.5); opacity: 0; } }
 
 /* =========================================================
-   BACKGROUND VIDEO — responsive, correct 9:16 ratio
-   =========================================================
-   Strategy:
-   - On desktop: true fullscreen cover, video fills viewport edge-to-edge
-   - On tablet/mobile portrait: 9:16 box centered vertically in screen,
-     with small padding so it never clips to edges — looks intentional
+   BACKGROUND VIDEO — 9:16 full-bleed on all screens
    ========================================================= */
 
 .video-page {
@@ -238,8 +233,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: block;
 }
 
-/* Tablet portrait & mobile: constrain to 16:9 with padding so it looks
-   like a proper framed video, not a cropped blob */
+/* Portrait mobile & tablet: 9:16 full-bleed, fills screen edge-to-edge */
 @media (max-width: 768px) and (orientation: portrait) {
   .video-page {
     padding: 0;
@@ -396,7 +390,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   :root { --navbar-height: 68px; }
 
   .nav-inner { padding: 0 20px; gap: 12px; }
-  .nav-logo-inner { width: 150px; height: 36px; }
+  .nav-logo-inner { width: 46px; height: 36px; }
   .nav-logo:hover .nav-logo-inner { width: 150px; }
   .nav-logo-img { height: 28px !important; }
 
@@ -420,7 +414,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   :root { --navbar-height: 60px; }
 
   .nav-inner { padding: 0 16px; gap: 10px; }
-  .nav-logo-inner { width: 130px; height: 32px; padding: 3px 4px; }
+  .nav-logo-inner { width: 40px; height: 32px; padding: 3px 4px; }
   .nav-logo:hover .nav-logo-inner { width: 130px; }
   .nav-logo-img { height: 24px !important; }
   .nav-actions .btn-sm { display: none; }
