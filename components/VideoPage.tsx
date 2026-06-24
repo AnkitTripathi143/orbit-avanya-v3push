@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function VideoPage() {
-  const bgVideoRef = useRef<HTMLVideoElement>(null)
+  const bgVideoRef   = useRef<HTMLVideoElement>(null)
   const modalVideoRef = useRef<HTMLVideoElement>(null)
-  const [muted, setMuted] = useState(true)
+  const [muted, setMuted]       = useState(true)
   const [modalOpen, setModalOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false) // controls CSS class for transition
+  const [isMobile, setIsMobile]   = useState(false)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024)
@@ -20,44 +21,46 @@ export default function VideoPage() {
     bgVideoRef.current?.play().catch(() => {})
   }, [])
 
-  // When modal opens, play modal video from start with sound
+  // Open modal: mount first, then add visible class on next frame for CSS transition
+  const openModal = () => {
+    setModalOpen(true)
+    setMuted(false)
+    // tiny delay so the DOM is painted before the transition triggers
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setModalVisible(true))
+    })
+  }
+
+  // Close modal: remove visible class first, then unmount after transition ends
+  const closeModal = () => {
+    setModalVisible(false)
+    setMuted(true)
+    setTimeout(() => setModalOpen(false), 380) // matches CSS transition duration
+  }
+
+  // Play/pause modal video based on visibility
   useEffect(() => {
-    if (modalOpen && modalVideoRef.current) {
+    if (!modalVideoRef.current) return
+    if (modalVisible) {
       modalVideoRef.current.currentTime = 0
       modalVideoRef.current.muted = false
       modalVideoRef.current.play().catch(() => {})
-    }
-    if (!modalOpen && modalVideoRef.current) {
+    } else {
       modalVideoRef.current.pause()
     }
-  }, [modalOpen])
+  }, [modalVisible])
 
-  // Desktop toggle: just mute/unmute bg video
+  // Desktop: directly mute/unmute bg video
   const handleDesktopToggle = () => {
     if (!bgVideoRef.current) return
     bgVideoRef.current.muted = !bgVideoRef.current.muted
     setMuted(bgVideoRef.current.muted)
   }
 
-  // Mobile/tablet: unmute opens modal, mute closes it
-  const handleMobileToggle = () => {
-    if (muted) {
-      setModalOpen(true)
-      setMuted(false)
-    } else {
-      setModalOpen(false)
-      setMuted(true)
-    }
-  }
+  const handleToggle = isMobile
+    ? () => (muted ? openModal() : closeModal())
+    : handleDesktopToggle
 
-  const closeModal = () => {
-    setModalOpen(false)
-    setMuted(true)
-  }
-
-  const handleToggle = isMobile ? handleMobileToggle : handleDesktopToggle
-
-  // Mute icon
   const MuteIcon = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -74,7 +77,7 @@ export default function VideoPage() {
 
   return (
     <>
-      {/* Background video — always playing silently */}
+      {/* Background video — always playing silently, properly responsive */}
       <div className="video-page">
         <video
           ref={bgVideoRef}
@@ -87,20 +90,26 @@ export default function VideoPage() {
         />
       </div>
 
-      {/* Mute/Unmute button — bottom right */}
+      {/* Mute/Unmute button */}
       <button
         className="mute-btn"
         onClick={handleToggle}
         aria-label={muted ? 'Unmute' : 'Mute'}
       >
         {muted ? <MuteIcon /> : <UnmuteIcon />}
-        {muted ? 'WATCH' : 'CLOSE'}
+        {muted ? 'UNMUTE' : 'MUTE'}
       </button>
 
-      {/* Mobile/Tablet modal — opens when UNMUTE is clicked */}
+      {/* Modal — always mounted when open, visibility drives CSS transition */}
       {modalOpen && (
-        <div className="video-modal-overlay" onClick={closeModal}>
-          <div className="video-modal-inner" onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`video-modal-overlay${modalVisible ? ' is-visible' : ''}`}
+          onClick={closeModal}
+        >
+          <div
+            className={`video-modal-inner${modalVisible ? ' is-visible' : ''}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button className="video-modal-close" onClick={closeModal} aria-label="Close">
               ✕
             </button>
