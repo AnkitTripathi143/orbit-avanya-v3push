@@ -20,23 +20,22 @@ img { max-width: 100%; display: block; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
 /* =========================================================
-   NAVBAR — solid white, no glassmorphism
+   NAVBAR
    ========================================================= */
 
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100%;
   height: var(--navbar-height);
   z-index: 1000;
   background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0,0,0,.08);
   transition: var(--transition);
 }
 
 .navbar.scrolled {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 4px 24px rgba(0,0,0,.10);
 }
 
 .nav-inner {
@@ -50,7 +49,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 24px;
 }
 
-/* ---- LOGO: icon only → expands to full name on hover ---- */
+/* ---- LOGO ---- */
 
 .nav-logo {
   display: flex;
@@ -61,18 +60,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav-logo-inner {
   display: block;
   width: 50px;
-  height: 48px;
+  height: 42px;
   overflow: hidden;
   transition: width .45s cubic-bezier(.25,.8,.25,1);
   border-radius: 8px;
   padding: 4px 6px;
-  /* White background so logo renders correctly */
   background: #ffffff;
 }
 
-.nav-logo:hover .nav-logo-inner {
-  width: 178px;
-}
+.nav-logo:hover .nav-logo-inner { width: 178px; }
 
 .nav-logo-img {
   height: 34px !important;
@@ -106,8 +102,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 0; left: 0;
   width: 0%;
   height: 2px;
   background: var(--blue);
@@ -117,6 +112,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .nav-link:hover { color: var(--blue); }
 .nav-link:hover::after { width: 100%; }
+
+/* ---- NAV ACTIONS ---- */
 
 .nav-actions {
   display: flex;
@@ -136,8 +133,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 255, .15);
-  background: rgba(255, 255, 255, .6);
+  border: 1px solid rgba(0,0,255,.15);
+  background: rgba(255,255,255,.6);
   transition: var(--transition);
   flex-shrink: 0;
 }
@@ -181,10 +178,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 .mobile-menu.open {
-  max-height: 520px;
+  max-height: 600px;
   padding: 20px 32px 28px;
   gap: 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 255, .08);
+  box-shadow: 0 16px 40px rgba(0,0,255,.08);
 }
 
 .mobile-menu .nav-link { font-size: 1.05rem; width: 100%; }
@@ -214,13 +211,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .btn-primary {
   background: var(--blue);
   color: var(--white);
-  box-shadow: 0 8px 24px rgba(0, 0, 255, .25);
+  box-shadow: 0 8px 24px rgba(0,0,255,.25);
 }
 
 .btn-primary:hover {
   background: var(--blue-dark);
   transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(0, 0, 255, .35);
+  box-shadow: 0 14px 32px rgba(0,0,255,.35);
 }
 
 /* ---- RIPPLE ---- */
@@ -230,7 +227,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ripple-circle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, .55);
+  background: rgba(255,255,255,.55);
   transform: scale(0);
   animation: ripple-anim .6s ease-out;
   pointer-events: none;
@@ -239,7 +236,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @keyframes ripple-anim { to { transform: scale(2.5); opacity: 0; } }
 
 /* =========================================================
-   FULLSCREEN VIDEO — fit screen with slight border edges
+   FULLSCREEN VIDEO — fit with slight border edges
    ========================================================= */
 
 .video-page {
@@ -250,7 +247,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 03px;
+  padding: 06px;
 }
 
 .video-page video {
@@ -274,37 +271,177 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 8px;
   padding: 9px 18px;
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.40);
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(0,0,0,.40);
   color: #fff;
   font-size: 0.8rem;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition: background .2s ease, border-color .2s ease;
 }
 
 .mute-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255,255,255,.15);
+  border-color: rgba(255,255,255,.6);
+}
+
+/* =========================================================
+   VIDEO MODAL — PwC-style lightbox (mobile & tablet)
+   ========================================================= */
+
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fade-in .22s ease;
+}
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.video-modal-inner {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,.7);
+  animation: slide-up .25s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.92);
+  color: #000;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  line-height: 1;
+  transition: background .2s;
+}
+
+.video-modal-close:hover { background: #fff; }
+
+.video-modal-player {
+  width: 100%;
+  display: block;
+  max-height: 75vh;
+  background: #000;
+  border-radius: 10px;
 }
 
 /* =========================================================
    RESPONSIVE
    ========================================================= */
 
+/* Large desktop */
 @media (max-width: 1100px) {
   .nav-inner { padding: 0 24px; }
-  .nav-menu { gap: 20px; }
+  .nav-menu { gap: 18px; }
+  .nav-link { font-size: .88rem; }
 }
 
+/* Tablet landscape + small desktop: hide nav links, keep button + hamburger */
 @media (max-width: 900px) {
   .nav-menu { display: none; }
   .nav-actions .btn-sm { display: none; }
 }
 
+/* Tablet portrait */
+@media (max-width: 768px) {
+  :root { --navbar-height: 68px; }
+
+  .nav-inner { padding: 0 20px; gap: 12px; }
+
+  .nav-logo-inner { width: 46px; height: 36px; }
+  .nav-logo:hover .nav-logo-inner { width: 150px; }
+  .nav-logo-img { height: 28px !important; }
+
+  /* Show "Book a Consultation" as compact text on tablet */
+  .nav-actions .btn-sm {
+    display: inline-flex;
+    font-size: .78rem;
+    padding: 9px 16px;
+  }
+
+  .hamburger { width: 38px; height: 38px; }
+
+  .video-page { padding: 12px; }
+  .video-page video { border-radius: 6px; }
+
+  .mute-btn {
+    bottom: 18px;
+    right: 18px;
+    padding: 8px 15px;
+    font-size: .75rem;
+  }
+
+  .video-modal-inner { border-radius: 8px; }
+  .video-modal-player { max-height: 72vw; }
+}
+
+/* Mobile */
 @media (max-width: 480px) {
-  .nav-inner { padding: 0 20px; }
-  .mute-btn { bottom: 16px; right: 16px; }
+  :root { --navbar-height: 60px; }
+
+  .nav-inner { padding: 0 16px; gap: 10px; }
+
+  .nav-logo-inner { width: 40px; height: 32px; padding: 3px 4px; }
+  .nav-logo:hover .nav-logo-inner { width: 130px; }
+  .nav-logo-img { height: 24px !important; }
+
+  /* Hide "Book a Consultation" button on small mobile — hamburger menu has it */
+  .nav-actions .btn-sm { display: none; }
+
+  .hamburger { width: 36px; height: 36px; }
+  .hamburger span { width: 16px; }
+
+  .mobile-menu { padding: 0 20px; }
+  .mobile-menu.open { padding: 18px 20px 24px; gap: 16px; }
+  .mobile-menu .nav-link { font-size: .98rem; }
+
+  .video-page { padding: 8px; }
+  .video-page video { border-radius: 4px; }
+
+  .mute-btn {
+    bottom: 14px;
+    right: 14px;
+    padding: 7px 13px;
+    font-size: .72rem;
+    gap: 6px;
+  }
+
+  .video-modal-overlay { padding: 12px; }
+  .video-modal-inner { border-radius: 8px; }
+  .video-modal-player { max-height: 56vw; }
+  .video-modal-close { width: 32px; height: 32px; font-size: .9rem; top: 8px; right: 8px; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .nav-inner { padding: 0 12px; }
+  .video-page { padding: 6px; }
+  .mute-btn { bottom: 12px; right: 12px; padding: 6px 11px; font-size: .68rem; }
 }
