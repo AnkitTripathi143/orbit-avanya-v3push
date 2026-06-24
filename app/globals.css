@@ -34,9 +34,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: var(--transition);
 }
 
-.navbar.scrolled {
-  box-shadow: 0 4px 24px rgba(0,0,0,.10);
-}
+.navbar.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.10); }
 
 .nav-inner {
   max-width: 1400px;
@@ -49,18 +47,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 24px;
 }
 
-/* ---- LOGO ---- */
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; }
 
 .nav-logo-inner {
   display: block;
-  width: 46px;
-  height: 42px;
+  width: 54px; height: 42px;
   overflow: hidden;
   transition: width .45s cubic-bezier(.25,.8,.25,1);
   border-radius: 8px;
@@ -78,8 +69,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   object-fit: contain;
   object-position: left center;
 }
-
-/* ---- NAV LINKS ---- */
 
 .nav-menu {
   display: flex;
@@ -113,8 +102,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav-link:hover { color: var(--blue); }
 .nav-link:hover::after { width: 100%; }
 
-/* ---- NAV ACTIONS ---- */
-
 .nav-actions {
   display: flex;
   align-items: center;
@@ -122,16 +109,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   flex-shrink: 0;
 }
 
-/* ---- HAMBURGER — always visible beside Book a Consultation ---- */
-
 .hamburger {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5px;
-  width: 42px;
-  height: 42px;
+  width: 42px; height: 42px;
   border-radius: 50%;
   border: 1px solid rgba(0,0,255,.15);
   background: rgba(255,255,255,.6);
@@ -139,15 +123,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   flex-shrink: 0;
 }
 
-.hamburger:hover {
-  background: var(--blue-tint);
-  border-color: var(--blue);
-}
+.hamburger:hover { background: var(--blue-tint); border-color: var(--blue); }
 
 .hamburger span {
   display: block;
-  width: 18px;
-  height: 2px;
+  width: 18px; height: 2px;
   background: var(--ink);
   border-radius: 2px;
   transition: var(--transition);
@@ -157,12 +137,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ---- MOBILE MENU ---- */
-
 .mobile-menu {
   position: fixed;
-  top: var(--navbar-height);
-  left: 0;
+  top: var(--navbar-height); left: 0;
   width: 100%;
   max-height: 0;
   overflow: hidden;
@@ -220,8 +197,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   box-shadow: 0 14px 32px rgba(0,0,255,.35);
 }
 
-/* ---- RIPPLE ---- */
-
 .ripple { position: relative; }
 
 .ripple-circle {
@@ -236,7 +211,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @keyframes ripple-anim { to { transform: scale(2.5); opacity: 0; } }
 
 /* =========================================================
-   FULLSCREEN VIDEO — fit with slight border edges
+   BACKGROUND VIDEO — responsive, correct 16:9 ratio
+   =========================================================
+   Strategy:
+   - On desktop: true fullscreen cover, video fills viewport edge-to-edge
+   - On tablet/mobile portrait: 16:9 box centered vertically in screen,
+     with small padding so it never clips to edges — looks intentional
    ========================================================= */
 
 .video-page {
@@ -247,24 +227,50 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 06px;
 }
 
+/* Desktop: fill the screen, crop intelligently */
 .video-page video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
-  border-radius: 03px;
+}
+
+/* Tablet portrait & mobile: constrain to 16:9 with padding so it looks
+   like a proper framed video, not a cropped blob */
+@media (max-width: 768px) and (orientation: portrait) {
+  .video-page {
+    padding: 0 12px;
+  }
+
+  .video-page video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+    max-height: 75vh;
+  }
+}
+
+/* Landscape on mobile — fill screen like desktop */
+@media (max-width: 768px) and (orientation: landscape) {
+  .video-page { padding: 0; }
+  .video-page video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
 }
 
 /* ---- MUTE BUTTON ---- */
 
 .mute-btn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 24px; right: 24px;
   z-index: 200;
   display: flex;
   align-items: center;
@@ -288,46 +294,60 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* =========================================================
-   VIDEO MODAL — PwC-style lightbox (mobile & tablet)
+   VIDEO MODAL — smooth enter/exit transitions
+   =========================================================
+   Pattern: modal is mounted (DOM exists) but starts invisible.
+   .is-visible class triggers the transition in.
+   On close, class is removed → CSS transitions out, then JS unmounts.
    ========================================================= */
 
 .video-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(0,0,0,.82);
+  background: rgba(0,0,0,0);           /* starts transparent */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  animation: fade-in .22s ease;
+  padding: 20px;
+  /* smooth overlay fade */
+  transition: background 0.35s ease;
+  /* allow pointer events only when visible */
+  pointer-events: none;
 }
 
-@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.video-modal-overlay.is-visible {
+  background: rgba(0,0,0,.82);
+  pointer-events: all;
+}
 
 .video-modal-inner {
   position: relative;
   width: 100%;
-  max-width: 640px;
-  background: #000;
-  border-radius: 10px;
+  max-width: 680px;
+  background: #111;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0,0,0,.7);
-  animation: slide-up .25s ease;
+  box-shadow: 0 32px 100px rgba(0,0,0,.8);
+  /* start: hidden below + transparent */
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition:
+    opacity   0.38s cubic-bezier(.25,.8,.25,1),
+    transform 0.38s cubic-bezier(.25,.8,.25,1);
 }
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
+.video-modal-inner.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
+/* Close button */
 .video-modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px; right: 12px;
   z-index: 10;
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 50%;
   background: rgba(255,255,255,.92);
   color: #000;
@@ -339,47 +359,46 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   cursor: pointer;
   border: none;
   line-height: 1;
-  transition: background .2s;
+  transition: background .2s, transform .2s;
 }
 
-.video-modal-close:hover { background: #fff; }
+.video-modal-close:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
 
+/* Video inside modal — always 16:9 */
 .video-modal-player {
   width: 100%;
+  aspect-ratio: 16 / 9;
   display: block;
-  max-height: 75vh;
   background: #000;
-  border-radius: 10px;
+  /* prevent overflow past border-radius */
+  border-radius: 0 0 12px 12px;
 }
 
 /* =========================================================
    RESPONSIVE
    ========================================================= */
 
-/* Large desktop */
 @media (max-width: 1100px) {
   .nav-inner { padding: 0 24px; }
   .nav-menu { gap: 18px; }
   .nav-link { font-size: .88rem; }
 }
 
-/* Tablet landscape + small desktop: hide nav links, keep button + hamburger */
 @media (max-width: 900px) {
   .nav-menu { display: none; }
-  .nav-actions .btn-sm { display: none; }
 }
 
-/* Tablet portrait */
 @media (max-width: 768px) {
   :root { --navbar-height: 68px; }
 
   .nav-inner { padding: 0 20px; gap: 12px; }
-
   .nav-logo-inner { width: 150px; height: 36px; }
   .nav-logo:hover .nav-logo-inner { width: 150px; }
   .nav-logo-img { height: 28px !important; }
 
-  /* Show "Book a Consultation" as compact text on tablet */
   .nav-actions .btn-sm {
     display: inline-flex;
     font-size: .78rem;
@@ -388,31 +407,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   .hamburger { width: 38px; height: 38px; }
 
-  .video-page { padding: 12px; }
-  .video-page video { border-radius: 6px; }
+  .mute-btn { bottom: 18px; right: 18px; padding: 8px 15px; font-size: .75rem; }
 
-  .mute-btn {
-    bottom: 18px;
-    right: 18px;
-    padding: 8px 15px;
-    font-size: .75rem;
-  }
-
-  .video-modal-inner { border-radius: 8px; }
-  .video-modal-player { max-height: 72vw; }
+  /* Modal padding tighter on tablet */
+  .video-modal-overlay { padding: 16px; }
+  .video-modal-inner { border-radius: 10px; max-width: 100%; }
+  .video-modal-player { border-radius: 0 0 10px 10px; }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   :root { --navbar-height: 60px; }
 
   .nav-inner { padding: 0 16px; gap: 10px; }
-
   .nav-logo-inner { width: 130px; height: 32px; padding: 3px 4px; }
   .nav-logo:hover .nav-logo-inner { width: 130px; }
   .nav-logo-img { height: 24px !important; }
-
-  /* Hide "Book a Consultation" button on small mobile — hamburger menu has it */
   .nav-actions .btn-sm { display: none; }
 
   .hamburger { width: 36px; height: 36px; }
@@ -422,26 +431,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .mobile-menu.open { padding: 18px 20px 24px; gap: 16px; }
   .mobile-menu .nav-link { font-size: .98rem; }
 
-  .video-page { padding: 8px; }
-  .video-page video { border-radius: 4px; }
+  .mute-btn { bottom: 14px; right: 14px; padding: 7px 13px; font-size: .72rem; gap: 6px; }
 
-  .mute-btn {
-    bottom: 14px;
-    right: 14px;
-    padding: 7px 13px;
-    font-size: .72rem;
-    gap: 6px;
-  }
-
+  /* Modal: edge-to-edge on small phones */
   .video-modal-overlay { padding: 12px; }
   .video-modal-inner { border-radius: 8px; }
-  .video-modal-player { max-height: 56vw; }
-  .video-modal-close { width: 32px; height: 32px; font-size: .9rem; top: 8px; right: 8px; }
+  .video-modal-player { border-radius: 0 0 8px 8px; }
+  .video-modal-close { width: 32px; height: 32px; font-size: .85rem; top: 8px; right: 8px; }
 }
 
-/* Very small phones */
 @media (max-width: 360px) {
   .nav-inner { padding: 0 12px; }
-  .video-page { padding: 6px; }
   .mute-btn { bottom: 12px; right: 12px; padding: 6px 11px; font-size: .68rem; }
+  .video-modal-overlay { padding: 8px; }
 }
